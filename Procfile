@@ -1,0 +1,1 @@
+web: gunicorn eqa.app:server
