@@ -113,7 +113,7 @@ class Cables(TeleData):
         self.cab_eq_map = dict()
 
         # head only
-        # self.g_df = self.g_df.head(100)
+        self.g_df = self.g_df.head(100)
         self.__add_eq_count()
 
     def get_lat_lon_names(self, filter_names: list):
