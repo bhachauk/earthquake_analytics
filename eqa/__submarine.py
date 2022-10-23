@@ -22,6 +22,7 @@ BASE_URL = 'https://raw.githubusercontent.com/telegeography/www.submarinecablema
 
 __cables = None
 __landing_points = None
+_gfwg = CardHeaderStyles.GRAY_FONT_WHITE_BG
 
 
 def create_dir(_dir):
@@ -82,7 +83,7 @@ class TeleData:
         if _id in self.features.keys():
             return self.features[_id]
         create_dir(self.dir)
-        __data = requests.get(self.__get_file_url()).json()
+        __data = requests.get(self.__get_file_url(_id)).json()
         self.features[_id] = __data
         return __data
 
@@ -107,12 +108,12 @@ class Cables(TeleData):
     def __init__(self):
         TeleData.__init__(self, 'cable', 'cable-geo.json')
         self.EQ_RADIUS = 2000 * 1000
-        self.eq_df = get_lw_eq_df()
+        self.eq_df = get_lm_eq_df()
         self.for_date = _u.today_str()
         self.cab_eq_map = dict()
 
         # head only
-        self.g_df = self.g_df.head(100)
+        # self.g_df = self.g_df.head(100)
         self.__add_eq_count()
 
     def get_lat_lon_names(self, filter_names: list):
@@ -142,7 +143,7 @@ class Cables(TeleData):
         __st = time.time()
         self.g_df[Names.COUNT] = self.g_df[Cols.ID].apply(lambda x: len(self.get_lm_eq_df(x)))
         self.g_df = self.g_df.sort_values(by=Names.COUNT, ascending=False)
-        _u.app_logger.info("Total time taken to compute eq count: {:.2f} sec".format(time.time() - __st))
+        _u.app_logger.info("Total time taken to compute eq count in cables df: {:.2f} sec".format(time.time() - __st))
 
     def get_lm_eq_df(self, _id) -> pd.DataFrame:
         if _id in self.cab_eq_map.keys():
@@ -268,14 +269,49 @@ def get_random_point() -> Point:
     return Point(np.random.randint(-180, 180), np.random.randint(-90, 90))
 
 
-def get_lw_eq_df():
+def get_lm_eq_df():
     _df = _d.get_lm_df()
     _df[Cols.PT] = _df.apply(lambda x: Point(x[Cols.LON], x[Cols.LAT]), axis=1)
     return _df
 
 
+# submarine 1 contents
 def get_submarine_1_content():
-    __uids = list(get_lw_eq_df()[Cols.UID])
+    return container([
+        [(get_affected_cables_count_stats(), 6), (get_cable_eq_card(), 6)],
+        [(get_top_affected_cables_bar(), 6)]
+    ])
+
+
+def get_affected_cables_count_stats():
+    __content = list()
+    __cab = get_cables().g_df
+    __f_cab = __cab[__cab[Names.COUNT] > 0]
+    val = (len(__f_cab) / len(__cab)) * 100
+    fig = go.Figure()
+    fig.add_trace(go.Pie(labels=['', ''], values=[val, 100-val], hole=0.85, textinfo='none', hoverinfo='none',
+                         marker_colors=['rgb(113,209,145)', 'rgb(240,240,240)']))
+    fig.update_layout(showlegend=False, height=300, width=300, margin=dict(l=0, r=0, b=0, t=0), autosize=False,
+                      annotations=[dict(text=str(val)+"%", x=0.5, y=0.5, font_size=20, showarrow=False)])
+    __content.append(html.Div(dcc.Graph(figure=fig, config={'displayModeBar': False, 'scrollZoom': True}),
+                              style={'width': '300px'}))
+    __content.append(html.H5("{} / {}".format(str(len(__f_cab)), str(len(__cab)))))
+    return card('Last 30 days affected cables stats', __content, _gfwg)
+
+
+def get_top_affected_cables_bar():
+    __content = list()
+    return card('Last 30 days top affected cables', __content, _gfwg)
+
+
+def get_cable_eq_card():
+    __content = list()
+    return card('Affected cable', __content, _gfwg)
+
+
+# submarine 2 contents
+def get_submarine_2_content():
+    __uids = list(get_lm_eq_df()[Cols.UID])
     __container = container([
         [(dcc.Dropdown(__uids, __uids[0], id='eq-dropdown', style={'margin': '15px'}), 6),
          (html.Div(), 6)
@@ -302,7 +338,7 @@ def get_cables_to_eq_stats():
     Input('eq-dropdown', 'value')
 )
 def __get_submarine_content(_eq_uname):
-    __eq_df = get_lw_eq_df()
+    __eq_df = get_lm_eq_df()
     _pt = __eq_df[__eq_df[Cols.UID] == _eq_uname][Cols.PT].iloc[0]
     eq_out = get_finalized_cables_out(_pt, _eq_uname)
 
@@ -348,4 +384,5 @@ if __name__ == '__main__':
     # lps = get_landing_points()
     # print(lps.g_df.head())
     cabs = get_cables()
+    print(cabs.g_df.head())
     pass

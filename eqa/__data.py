@@ -73,9 +73,17 @@ def get_file_path(_date_str):
 def clear_old_data():
     __valid_files = get_all_files_dates()
     for f in os.listdir(EQ_DATA_DIR):
-        __file_path = os.path.join(EQ_DATA_DIR, f)
-        if f[:10] not in __valid_files and os.path.exists(__file_path):
-            os.remove(__file_path)
+        try:
+            __file_path = os.path.join(EQ_DATA_DIR, f)
+            if f[:10] not in __valid_files and os.path.exists(__file_path):
+                os.remove(__file_path)
+        except e:
+            pass
+
+
+def get_available_data_pct():
+    _val = (len(os.listdir(EQ_DATA_DIR)) / (TOTAL_DATES + 1)) * 100
+    return _val, "Fetching {:.2f} %".format(_val)
 
 
 def collect_data():
@@ -110,7 +118,17 @@ def get_df():
         'magError': 'float16',
         'magNst': 'float16',
     }
-    return pd.concat([pd.read_csv(_f, dtype=__dtype) for _f in glob.glob(os.path.join(EQ_DATA_DIR, '*.csv'))])
+
+    __dfs = list()
+    for _f in glob.glob(os.path.join(EQ_DATA_DIR, '*.csv')):
+        try:
+            __dfs.append(pd.read_csv(_f, dtype=__dtype))
+        except Exception as e:
+            print(e)
+            print(_f)
+            print(e.__traceback__)
+            pass
+    return pd.concat(__dfs)
 
 
 def __mag_fmt(val):

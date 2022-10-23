@@ -1,3 +1,5 @@
+import threading
+
 from eqa import __data, __util, __submarine, __app_util as _a
 from eqa.__util import Period, Periods, Names
 from eqa.__data import Cols
@@ -15,15 +17,23 @@ from dash import Input, Output, html, dcc, dash_table
 
 _hs = CardHeaderStyles.WHITE_FONT_BLACK_BG
 _gfwb = CardHeaderStyles.GRAY_FONT_WHITE_BG
+init_check = False
+
+
+def get_all_tabs_content_for_init():
+    global init_check
+    get_all_tabs_content()
+    init_check = True
 
 
 def get_all_tabs_content():
     __util.app_logger.info("Loading all contents ..!!!")
     content_dict = {
-        'Home': get_home_content(),
-        'Area': get_area_content(),
+        'Home': [dcc.Loading(id="loading-home", children=[get_home_content()])],
+        'Area': [dcc.Loading(id="loading-area", children=[get_area_content()])],
         # 'Insight': get_insight_content(),
-        'Submarine': __submarine.get_submarine_1_content()
+        # 'Submarine cable 1': [dcc.Loading(id="loading-smc1", children=[__submarine.get_submarine_1_content()])],
+        'Submarine cable': [dcc.Loading(id="loading-smc2", children=[__submarine.get_submarine_2_content()])],
     }
 
     tabs = list()
@@ -216,9 +226,13 @@ def get_eq_table():
 
 def get_eq_area_heat():
     content = [
-        html.Div(children=[get_eq_area_heat_fig()])
+        html.Div(children=[
+            get_eq_area_heat_fig(),
+            dbc.Alert("Divided into 324 Areas (18x18) for analytics with step sizes latitude: 10, longitude: 20",
+                      color="secondary", style={'text-align': 'center', 'font-size': '10px'})
+        ])
     ]
-    return card("Last 30 Days Earthquakes", content, _gfwb)
+    return card("Last 30 Days Earthquakes with Area", content, _gfwb)
 
 
 def get_eq_area_heat_fig(_td_df=None):
@@ -240,14 +254,14 @@ def get_eq_area_heat_fig(_td_df=None):
                                     line=dict(color='blue'), name=_row[Names.COUNT]))
 
     fig.update_geos(lataxis_dtick=10, lonaxis_dtick=20, lataxis_showgrid=True, lonaxis_showgrid=True)
-    fig.update_layout(width=700, autosize=False, height=400, margin=dict(l=10, r=10, t=10, b=10), showlegend=False)
+    fig.update_layout(width=700, autosize=False, height=400, margin=dict(l=10, r=10, t=10, b=2), showlegend=False)
     fig.update_xaxes(automargin=False)
     fig.update_yaxes(automargin=False)
     return dcc.Graph(figure=fig, config={'displayModeBar': False, 'scrollZoom': True})
 
 
 def get_eq_area_col2():
-    return card('Stats', [get_eq_area_pie(), get_eq_area_bar()], _gfwb)
+    return card('Top affected Areas', [get_eq_area_pie(), get_eq_area_bar()], _gfwb)
 
 
 def get_eq_area_pie():
