@@ -22,7 +22,7 @@ Simple earthquake stats / analytics app using [adasher](https://pypi.org/project
 
 **Why submarine optical cables ?**
 
-Might be helpful for exploring the early earthquake detection by submarine as mentioned in [using-subsea-cables-to-detect-earthquakes by google](https://cloud.google.com/blog/products/infrastructure/using-subsea-cables-to-detect-earthquakes)
+Might be helpful for exploring the early earthquake detection by submarine optical cables as mentioned here : [using-subsea-cables-to-detect-earthquakes by google](https://cloud.google.com/blog/products/infrastructure/using-subsea-cables-to-detect-earthquakes)
 
 
 Created using :sparkling_heart: [adasher](https://pypi.org/project/adasher/).
