@@ -18,6 +18,11 @@ Simple earthquake stats / analytics app using [adasher](https://pypi.org/project
 - Earthquake data fetched from [USGS Earthquake Hazards Program](https://earthquake.usgs.gov/) Data range : (90 days)
 - Submarine optical cables data fetched from [telegeography/www.submarinecablemap.com](https://github.com/telegeography/www.submarinecablemap.com)
   under [Creative Commons License: Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)](https://creativecommons.org/licenses/by-nc-sa/3.0/)
+  
+
+**Why submarine optical cables ?**
+
+Might be helpful for exploring the early earthquake detection by submarine as mentioned in [using-subsea-cables-to-detect-earthquakes by google](https://cloud.google.com/blog/products/infrastructure/using-subsea-cables-to-detect-earthquakes)
 
 
 Created using :sparkling_heart: [adasher](https://pypi.org/project/adasher/).
