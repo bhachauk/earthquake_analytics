@@ -17,7 +17,6 @@ from eqa.__data import Names, Cols
 from adasher.cards import container, card
 from adasher.elements import CardHeaderStyles
 
-
 BASE_URL = 'https://raw.githubusercontent.com/telegeography/www.submarinecablemap.com/master/web/public/api/v3/'
 
 __cables = None
@@ -113,8 +112,11 @@ class Cables(TeleData):
         self.cab_eq_map = dict()
 
         # head only
-        self.g_df = self.g_df.head(100)
-        self.__add_eq_count()
+        # self.g_df = self.g_df.head(100)
+        threading.Thread(target=self.__add_eq_count).start()
+
+    def get_cab_pct(self):
+        return (len(self.cab_eq_map.keys()) / len(list(self.g_df[Cols.ID].unique()))) * 100
 
     def get_lat_lon_names(self, filter_names: list):
         lats = []
@@ -152,8 +154,9 @@ class Cables(TeleData):
         __cache_file = _d.get_cache_file_path(self.dir, _id)
         if self.is_cache and os.path.exists(__cache_file):
             __cach_kv = _d.get_cache_file(self.dir, _id)
-            self.cab_eq_map.update(__cach_kv)
-            return self.eq_df[self.eq_df.index.isin(__cach_kv[_id])]
+            if __cach_kv is not None:
+                self.cab_eq_map.update(__cach_kv)
+                return self.eq_df[self.eq_df.index.isin(__cach_kv[_id])]
 
         _st = time.time()
         _ml_str = self.g_df[self.g_df[Cols.ID] == _id]['geometry'].iloc[0]
@@ -181,7 +184,7 @@ class EQCablesOut:
 
     def __format_df(self):
         self.df = self.df[['distance_km', 'name']]
-        _empty_lines = 5 if self.df.empty else 5-(len(self.df) % 5) if len(self.df) % 5 != 0 else 0
+        _empty_lines = 5 if self.df.empty else 5 - (len(self.df) % 5) if len(self.df) % 5 != 0 else 0
         for _ in range(_empty_lines):
             self.df = self.df.append({'distance_km': '', 'name': ''}, ignore_index=True)
         self.df.rename(columns={'distance_km': 'Distance (km)', 'name': 'Cable name'}, inplace=True)
@@ -289,10 +292,10 @@ def get_affected_cables_count_stats():
     __f_cab = __cab[__cab[Names.COUNT] > 0]
     val = (len(__f_cab) / len(__cab)) * 100
     fig = go.Figure()
-    fig.add_trace(go.Pie(labels=['', ''], values=[val, 100-val], hole=0.85, textinfo='none', hoverinfo='none',
+    fig.add_trace(go.Pie(labels=['', ''], values=[val, 100 - val], hole=0.85, textinfo='none', hoverinfo='none',
                          marker_colors=['rgb(113,209,145)', 'rgb(240,240,240)']))
     fig.update_layout(showlegend=False, height=300, width=300, margin=dict(l=0, r=0, b=0, t=0), autosize=False,
-                      annotations=[dict(text=str(val)+"%", x=0.5, y=0.5, font_size=20, showarrow=False)])
+                      annotations=[dict(text=str(val) + "%", x=0.5, y=0.5, font_size=20, showarrow=False)])
     __content.append(html.Div(dcc.Graph(figure=fig, config={'displayModeBar': False, 'scrollZoom': True}),
                               style={'width': '300px'}))
     __content.append(html.H5("{} / {}".format(str(len(__f_cab)), str(len(__cab)))))
@@ -321,7 +324,7 @@ def get_submarine_2_content():
         __container,
         card('Nearby submarine cables', [dcc.Loading(children=[html.Div(id='submarine-eq-cab-output-content')])],
              CardHeaderStyles.GRAY_FONT_WHITE_BG)
-        ])
+    ])
 
 
 def get_cables_to_eq_stats():

@@ -9,7 +9,7 @@ from dash import Input, Output, html, dcc
 from adasher.elements import header, footer
 import logging
 
-from eqa import __stats, __util as _u, __app_util as _a, __data
+from eqa import __stats, __util as _u, __app_util as _a, __data, __submarine as _sub
 
 
 log = logging.getLogger('werkzeug')
@@ -42,7 +42,18 @@ __tabs = [
 layout.append(footer([html.Div(children=__tabs, style={'text-align': 'center', 'margin': '5px'})],
                      style={'height': '30px'}))
 app.layout = html.Div(children=layout, id='overall_page')
-threading.Thread(target=__stats.get_all_tabs_content_for_init).start()
+
+
+def fetch_init():
+    threading.Thread(target=__stats.get_all_tabs_content, ).start()
+    threading.Thread(target=_sub.get_cables,).start()
+
+
+def get_fetch_pct():
+    _pct_df, _ = __data.get_available_data_pct()
+    _pct_cab = _sub.get_cables().get_cab_pct()
+    _pct = (_pct_df + _pct_cab) / 2
+    return _pct, 'Fetching {:.2f}'.format(_pct)
 
 
 @app.callback(
@@ -52,7 +63,7 @@ threading.Thread(target=__stats.get_all_tabs_content_for_init).start()
 )
 def update_progress(n):
     style = dict()
-    _val, _lab = __data.get_available_data_pct()
+    _val, _lab = get_fetch_pct()
     if _val >= 100:
         style['display'] = 'none'
     return _val, _lab, style
@@ -61,6 +72,9 @@ def update_progress(n):
 @app.callback(Output('all_tabs_content', 'children'),
               Input('interval-component', 'n_intervals'), prevent_initial_call=True)
 def update_pblm_table(n):
+    _val, _ = get_fetch_pct()
+    if _val < 100:
+        return html.Div('Loading..', style={'margin': '50%'})
     _st = time.time()
     _content = __stats.get_all_tabs_content()
     _u.app_logger.info('Total loading time : {:.2f}'.format(time.time()-_st))
@@ -69,4 +83,5 @@ def update_pblm_table(n):
 
 if __name__ == '__main__':
     _u.init_utils()
+    fetch_init()
     app.run_server(debug=False, port=8080, use_reloader=False, host='0.0.0.0')

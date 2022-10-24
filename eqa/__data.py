@@ -213,7 +213,10 @@ def get_cache_file(_dir, _id):
      for _f in os.listdir(__cache_dir)
      if __util.today_str() not in _f]
 
-    return np.load(__file_path, allow_pickle=True).item() if os.path.exists(__file_path) else None
+    try:
+        return np.load(__file_path, allow_pickle=True).item() if os.path.exists(__file_path) else None
+    except Exception as e:
+        return None
 
 
 if __name__ == '__main__':
