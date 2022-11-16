@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "builds": [
+      {
+          "src": "*.py",
+          "use": "@vercel/python"
+      }
+  ],
+  "routes": [
+      {
+          "src": "(.*)",
+          "dest": "eqa/app.py"
+      }
+  ]
+}
