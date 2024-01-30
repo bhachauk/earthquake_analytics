@@ -4,6 +4,8 @@
 
 Simple earthquake stats / analytics app using [adasher](https://pypi.org/project/adasher/)
 
+![Demo](eq_analytics.gif)
+
 ### Analytics
 
 - [x] Area
