@@ -17,7 +17,7 @@ from eqa.__data import Names, Cols
 from adasher.cards import container, card
 from adasher.elements import CardHeaderStyles
 
-BASE_URL = 'https://raw.githubusercontent.com/telegeography/www.submarinecablemap.com/master/web/public/api/v3/'
+BASE_URL = 'https://www.submarinecablemap.com/api/v3/'
 
 __cables = None
 __landing_points = None
@@ -186,7 +186,7 @@ class EQCablesOut:
         self.df = self.df[['distance_km', 'name']]
         _empty_lines = 5 if self.df.empty else 5 - (len(self.df) % 5) if len(self.df) % 5 != 0 else 0
         for _ in range(_empty_lines):
-            self.df = self.df.append({'distance_km': '', 'name': ''}, ignore_index=True)
+            self.df = self.df._append({'distance_km': '', 'name': ''}, ignore_index=True)
         self.df.rename(columns={'distance_km': 'Distance (km)', 'name': 'Cable name'}, inplace=True)
 
 

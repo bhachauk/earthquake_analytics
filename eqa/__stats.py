@@ -268,7 +268,7 @@ def get_eq_area_pie():
     __df = get_eq_area_count_df(Names.LM)
     _t_df = __df.head(4)
     _b_df = __df.tail(len(__df)-4)
-    _t_df = _t_df.append({Cols.AREA: 'Others', Names.COUNT: _b_df[Names.COUNT].sum()}, ignore_index=True)
+    _t_df = _t_df._append({Cols.AREA: 'Others', Names.COUNT: _b_df[Names.COUNT].sum()}, ignore_index=True)
     fig = go.Figure(data=[go.Pie(labels=_t_df[Cols.AREA], values=_t_df[Names.COUNT])])
     fig.update_layout(margin=dict(l=5, r=5, t=5, b=5), height=200, showlegend=False)
     return dcc.Graph(figure=fig, config={'displayModeBar': False, 'scrollZoom': True})

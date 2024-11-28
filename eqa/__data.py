@@ -77,7 +77,7 @@ def clear_old_data():
             __file_path = os.path.join(EQ_DATA_DIR, f)
             if f[:10] not in __valid_files and os.path.exists(__file_path):
                 os.remove(__file_path)
-        except e:
+        except Exception as e:
             pass
 
 
@@ -122,7 +122,8 @@ def get_df():
     __dfs = list()
     for _f in glob.glob(os.path.join(EQ_DATA_DIR, '*.csv')):
         try:
-            __dfs.append(pd.read_csv(_f, dtype=__dtype))
+            __df = pd.read_csv(_f)
+            __dfs.append(pd.read_csv(_f))
         except Exception as e:
             print(e)
             print(_f)
