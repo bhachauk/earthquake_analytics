@@ -2,6 +2,21 @@
 
 :earth_asia: :wavy_dash: :ocean: :electric_plug: :chart:
 
+- Backend API deployed using Vercel - [https://earthquake-analytics.vercel.app/](https://earthquake-analytics.vercel.app/)
+- Frontend deployed using Github pages - [https://bhachauk.github.io/earthquake_analytics/](https://bhachauk.github.io/earthquake_analytics/)
+
+**Features (Migration Work in progress)**
+
+| Todo                                            | Status |
+|:------------------------------------------------|:-------|
+| Backend API for charts                          | [x]    |
+| Reactjs frontend analytics                      | [x]    |
+| Backend API for submarine cables and earthquake | []     |
+| Reactjs frontend for cables and area charts     | []     |
+
+Deprecated - Python application
+----
+
 Simple earthquake stats / analytics app using [adasher](https://pypi.org/project/adasher/)
 
 ![Demo](eq_analytics.gif)
