@@ -1,6 +1,6 @@
 {
   "functions": {
-    "handler.go": {
+    "eqa_go/handler.go": {
       "runtime": "go1.x",
       "memory": 128,
       "maxDuration": 10
