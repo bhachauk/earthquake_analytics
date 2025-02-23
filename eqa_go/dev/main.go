@@ -1,6 +1,7 @@
 package main
 
 import (
+	"eqa_go/api"
 	"eqa_go/controllers"
 	"eqa_go/ext"
 	"fmt"
@@ -12,7 +13,7 @@ func main() {
 	port := 3000
 	ext.StartUsgs()
 	router := gin.Default()
-	router.Use(CORSMiddleware())
+	router.Use(api.CORSMiddleware())
 	controllers.RegisterMetricRoutes(router)
 	router.Run(fmt.Sprintf(":%d", port))
 }

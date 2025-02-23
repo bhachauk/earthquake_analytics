@@ -1,13 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "handler.go": {
-      "runtime": "go1.23.4",
-      "memory": 128,
-      "maxDuration": 10
-    }
-  },
   "routes": [
-    { "src": "/(.*)", "dest": "handler.go" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.go"
+    }
   ]
 }
