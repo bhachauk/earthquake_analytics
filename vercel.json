@@ -1,4 +1,11 @@
 {
+  "builds": [
+    {
+      "src": "eqa_go/handler.go",
+      "use": "@vercel/go",
+      "cwd": "eqa_go"
+    }
+  ],
   "functions": {
     "eqa_go/handler.go": {
       "runtime": "go1.x",
@@ -7,6 +14,6 @@
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "eqa_go/handler.go" }
+    { "src": "/(.*)", "dest": "/eqa_go/handler.go" }
   ]
 }
