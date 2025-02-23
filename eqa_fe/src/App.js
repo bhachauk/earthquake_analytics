@@ -10,7 +10,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
     return (
-        <Router>
+        <Router basename="/earthquake_analytics">
             <div className="app-container">
                 <Header />
                 <main className="main-content">
