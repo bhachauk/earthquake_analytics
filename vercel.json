@@ -1,15 +1,12 @@
 {
-  "version": 2,
-  "builds": [
-      {
-          "src": "eqa/app.py",
-          "use": "@vercel/python"
-      }
-  ],
+  "functions": {
+    "handler.go": {
+      "runtime": "go1.23.4",
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
   "routes": [
-      {
-          "src": "(.*)",
-          "dest": "eqa/app.py"
-      }
+    { "src": "/(.*)", "dest": "eqa_go/handler.go" }
   ]
 }
