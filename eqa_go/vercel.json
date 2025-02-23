@@ -1,7 +1,8 @@
 {
+  "version": 2,
   "functions": {
     "handler.go": {
-      "runtime": "go1.x",
+      "runtime": "go1.23.4",
       "memory": 128,
       "maxDuration": 10
     }
