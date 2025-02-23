@@ -2,8 +2,7 @@
   "builds": [
     {
       "src": "api/index.go",
-      "use": "@vercel/go",
-      "cwd": "api"
+      "use": "@vercel/go"
     }
   ],
   "functions": {
