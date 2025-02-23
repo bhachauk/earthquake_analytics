@@ -1,13 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/index.go": {
-      "runtime": "go1.x",
-      "memory": 128,
-      "maxDuration": 10
-    }
-  },
   "routes": [
-    { "src": "/(.*)", "dest": "/api/index.go" }
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.go"
+    }
   ]
 }
