@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/earthquake_analytics/static/css/main.648047c5.css",
-    "main.js": "/earthquake_analytics/static/js/main.1fb3b157.js",
+    "main.js": "/earthquake_analytics/static/js/main.f0b2c725.js",
     "static/js/453.74b3ece3.chunk.js": "/earthquake_analytics/static/js/453.74b3ece3.chunk.js",
     "static/media/fa-solid-900.ttf": "/earthquake_analytics/static/media/fa-solid-900.2582b0e4bcf85eceead0.ttf",
     "static/media/fa-brands-400.ttf": "/earthquake_analytics/static/media/fa-brands-400.1815e00441357e01619e.ttf",
@@ -13,11 +13,11 @@
     "static/media/fa-v4compatibility.woff2": "/earthquake_analytics/static/media/fa-v4compatibility.ea8f94e1d22e0d35ccd4.woff2",
     "index.html": "/earthquake_analytics/index.html",
     "main.648047c5.css.map": "/earthquake_analytics/static/css/main.648047c5.css.map",
-    "main.1fb3b157.js.map": "/earthquake_analytics/static/js/main.1fb3b157.js.map",
+    "main.f0b2c725.js.map": "/earthquake_analytics/static/js/main.f0b2c725.js.map",
     "453.74b3ece3.chunk.js.map": "/earthquake_analytics/static/js/453.74b3ece3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.648047c5.css",
-    "static/js/main.1fb3b157.js"
+    "static/js/main.f0b2c725.js"
   ]
 }
