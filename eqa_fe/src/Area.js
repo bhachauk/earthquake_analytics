@@ -1,11 +1,12 @@
 import React from 'react';
-import WorkInProgress from "./WIP";
+import PlotlyWidget from "./PlotlyWidget";
+import {GetMetricURL} from "./Config";
 
 function Area() {
     return (
         <div className="plotly-grid">
-            <WorkInProgress/>
-            {/* Add more PlotlyWidgets as needed */}
+            <PlotlyWidget url={GetMetricURL("top_areas")}
+                          title="Top Impacted Areas in last 90 days"/>
         </div>
     );
 }

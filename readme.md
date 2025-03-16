@@ -1,4 +1,4 @@
-## Earthquake analytics
+<h1><img src="./eqa_fe/public/white_beard_icon.png" width="50px"/> Earthquake analytics</h1>
 
 :earth_asia: :wavy_dash: :ocean: :electric_plug: :chart:
 
@@ -7,12 +7,13 @@
 
 **Features (Migration Work in progress)**
 
-| Todo                                            | Status |
-|:------------------------------------------------|:-------|
-| Backend API for charts                          | [x]    |
-| Reactjs frontend analytics                      | [x]    |
-| Backend API for submarine cables and earthquake | []     |
-| Reactjs frontend for cables and area charts     | []     |
+
+| Todo                                            | Status  |
+|:------------------------------------------------|:--------|
+| Backend API for charts                          | &check; |
+| Reactjs frontend analytics                      | &check; |
+| Backend API for submarine cables and earthquake | &cross; |
+| Reactjs frontend for cables and area charts     | &cross; |
 
 Deprecated - Python application
 ----

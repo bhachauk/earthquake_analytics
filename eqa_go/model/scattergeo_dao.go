@@ -7,6 +7,12 @@ type ScatterGeo struct {
 	Lon    []float64  `json:"lon"`
 	Marker *GeoMarker `json:"marker,omitempty"`
 	Text   []string   `json:"text,omitempty"`
+	Line   Line       `json:"line,omitempty"`
+	Name   string     `json:"name,omitempty"`
+}
+
+type Line struct {
+	Color string `json:"color"`
 }
 
 type GeoMarker struct {
@@ -27,6 +33,7 @@ type GeoLayout struct {
 	//    paper_bgcolor: 'rgb(255, 255, 255)',
 	PlotBgColor  string `json:"plot_bgcolor,omitempty"`
 	PaperBgColor string `json:"paper_bgcolor,omitempty"`
+	ShowLegend   bool   `json:"showlegend"`
 }
 
 type GeoConfig struct {

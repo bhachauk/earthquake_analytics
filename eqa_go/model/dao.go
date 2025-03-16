@@ -24,12 +24,15 @@ type GraphLayout struct {
 }
 
 type AxisConfig struct {
-	Title Title `json:"title"`
-	// Add other axis properties as needed
+	Title     Title     `json:"title,omitempty"`
+	Showgrid  bool      `json:"showgrid,omitempty"`
+	Gridwidth float64   `json:"gridwidth,omitempty"`
+	Range     []float64 `json:"range,omitempty"`
+	Dtick     float64   `json:"dtick,omitempty"`
 }
 
 type Title struct {
-	Text string `json:"text"`
+	Text string `json:"text,omitempty"`
 }
 
 type GraphMarker struct {

@@ -140,3 +140,9 @@ body {
     grid-template-columns: 1fr; /* Single column on small screens */
   }
 }
+
+.app-icon {
+  width: 25px; /* Adjust size as needed */
+  height: 25px;
+  margin-right: 10px;
+}

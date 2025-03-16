@@ -41,6 +41,7 @@ func GetData() *model.FeatureCollection {
 		return data
 	}
 
+	//Collect last 90 days
 	endDay := time.Now()
 	startDay := endDay.AddDate(0, 0, -90)
 	getURL := getURL(map[string]string{"starttime": startDay.Format("02-01-2006")})
